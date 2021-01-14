@@ -41,11 +41,12 @@ describe('token simulation', function() {
       ]
     }));
 
-    beforeEach(inject(function(elementRegistry, toggleMode) {
+    beforeEach(inject(function(elementRegistry, toggleMode, toggleAutomatic) {
       startEvent = elementRegistry.get('StartEvent_1');
       gateway = elementRegistry.get('ExclusiveGateway_1');
 
       toggleMode.toggleMode();
+      toggleAutomatic.toggleAutomatic();
     }));
 
 
@@ -164,10 +165,11 @@ describe('token simulation', function() {
       ]
     }));
 
-    beforeEach(inject(function(elementRegistry, toggleMode) {
+    beforeEach(inject(function(elementRegistry, toggleMode, toggleAutomatic) {
       startEvent = elementRegistry.get('StartEvent_1');
 
       toggleMode.toggleMode();
+      toggleAutomatic.toggleAutomatic();
     }));
 
 
@@ -224,10 +226,11 @@ describe('token simulation', function() {
       ]
     }));
 
-    beforeEach(inject(function(elementRegistry, toggleMode) {
+    beforeEach(inject(function(elementRegistry, toggleMode, toggleAutomatic) {
       startEvent = elementRegistry.get('StartEvent_1');
 
       toggleMode.toggleMode();
+      toggleAutomatic.toggleAutomatic();
     }));
 
 
@@ -275,10 +278,11 @@ describe('token simulation', function() {
       ]
     }));
 
-    beforeEach(inject(function(elementRegistry, toggleMode) {
+    beforeEach(inject(function(elementRegistry, toggleMode, toggleAutomatic) {
       startEvent = elementRegistry.get('START');
 
       toggleMode.toggleMode();
+      toggleAutomatic.toggleAutomatic();
     }));
 
 
@@ -329,9 +333,10 @@ describe('token simulation', function() {
       ]
     }));
 
-    beforeEach(inject(function(elementRegistry, toggleMode) {
+    beforeEach(inject(function(elementRegistry, toggleMode, toggleAutomatic) {
       startEvent = elementRegistry.get('StartEvent');
       toggleMode.toggleMode();
+      toggleAutomatic.toggleAutomatic();
     }));
 
 
@@ -391,9 +396,10 @@ describe('token simulation', function() {
       ]
     }));
 
-    beforeEach(inject(function(elementRegistry, toggleMode) {
+    beforeEach(inject(function(elementRegistry, toggleMode, toggleAutomatic) {
       startEvent = elementRegistry.get('StartEvent_1');
       toggleMode.toggleMode();
+      toggleAutomatic.toggleAutomatic();
     }));
 
 
@@ -439,10 +445,11 @@ describe('token simulation', function() {
       ]
     }));
 
-    beforeEach(inject(function(elementRegistry, toggleMode) {
+    beforeEach(inject(function(elementRegistry, toggleMode, toggleAutomatic) {
       startEvent = elementRegistry.get('StartEvent');
 
       toggleMode.toggleMode();
+      toggleAutomatic.toggleAutomatic();
     }));
 
 
