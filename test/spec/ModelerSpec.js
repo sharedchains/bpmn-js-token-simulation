@@ -27,4 +27,10 @@ describe('token-simulation - modeler', function() {
     toggleMode.toggleMode();
   }));
 
+  it('should toggle automatic', inject(function(toggleAutomatic) {
+
+    // YEA!
+    toggleAutomatic.toggleAutomatic();
+  }));
+
 });
