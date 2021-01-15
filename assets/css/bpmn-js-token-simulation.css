@@ -41,12 +41,12 @@ html, body, #canvas {
 
 .context-pad {
   cursor: pointer;
-  background-color: var(--token-simulation-grey-lighten-56, #909090);
+  background-color: var(--token-simulation-green-base-44, #909090);
   border-radius: 2px;
   margin: 0;
   font-size: 16px;
   color: var(--token-simulation-grey-darken-30, #212121);
-  opacity: 0.5;
+  opacity: 0.8;
   transition: all 0.1s ease-in-out;
   width: 30px;
   height: 30px;
@@ -58,7 +58,7 @@ html, body, #canvas {
 
 .context-pad:not(.disabled):hover {
   width: 40px;
-  background-color: var(--token-simulation-green-base-44, #10D070);
+  /*background-color: var(--token-simulation-green-base-44, #10D070);*/
   opacity: 1;
   color: var(--token-simulation-white, #FFFFFF);
 }
