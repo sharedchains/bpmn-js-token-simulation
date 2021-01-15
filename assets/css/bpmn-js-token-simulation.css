@@ -201,19 +201,6 @@ html, body, #canvas {
   user-select: none;
 }
 
-.toggle-automatic {
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  left: 190px;
-  background-color: var(--token-simulation-silver-darken-94, #EFEFEF);
-  border-radius: 2px;
-  padding: 6px;
-  font-size: 16px;
-  color: var(--token-simulation-grey-darken-30, #212121);
-  user-select: none;
-}
-
 .bjs-container.simulation .toggle-mode,
 .toggle-mode:hover{
   background-color: var(--token-simulation-green-base-44, #10D070);
@@ -380,7 +367,7 @@ html, body, #canvas {
 .process-instances {
   position: absolute;
   top: 20px;
-  left: 350px;
+  left: 190px;
   display: flex;
   flex-direction: row;
 }
@@ -410,20 +397,39 @@ html, body, #canvas {
   background-color: var(--token-simulation-silver-darken-94, #EFEFEF);
 }
 
-.set-animation-speed {
+
+.animation-palette {
   position: absolute;
   bottom: 20px;
   left: 50%;
-  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: row;
+}
+
+.toggle-automatic {
+  cursor: pointer;
+  background-color: var(--token-simulation-silver-darken-94, #EFEFEF);
+  border-radius: 2px;
+  padding: 6px;
+  font-size: 16px;
+  color: var(--token-simulation-grey-darken-30, #212121);
+  user-select: none;
+}
+
+.toggle-automatic.hidden {
+  display: none;
+}
+
+.set-animation-speed {
   font-size: 16px;
   text-align: center;
   background-color: var(--token-simulation-silver-darken-94, #EFEFEF);
   border-radius: 2px;
   cursor: pointer;
+  padding-left: 6px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 6px;
   overflow: hidden;
 }
 
