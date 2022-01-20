@@ -1,10 +1,14 @@
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var DefinePlugin = require('webpack').DefinePlugin;
+
 
 module.exports = (env, argv) => {
 
   const mode = argv.mode || 'development';
 
-  const config = {
+  const devtool = mode === 'development' ? 'eval-source-map' : 'source-map';
+
+  return {
     mode,
     entry: {
       viewer: './example/src/viewer.js',
@@ -18,9 +22,7 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.bpmn$/,
-          use: {
-            loader: 'raw-loader'
-          }
+          type: 'asset/source'
         }
       ]
     },
@@ -30,13 +32,12 @@ module.exports = (env, argv) => {
           { from: './node_modules/bpmn-js/dist/assets', to: 'dist/vendor/bpmn-js/assets' },
           { from: './assets', to: 'dist/vendor/bpmn-js-token-simulation/assets' }
         ]
+      }),
+      new DefinePlugin({
+        'process.env.TOKEN_SIMULATION_VERSION': JSON.stringify(require('./package.json').version)
       })
-    ]
+    ],
+    devtool
   };
 
-  if (mode === 'production') {
-    config.devtool = 'source-map';
-  }
-
-  return config;
 };

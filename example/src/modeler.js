@@ -2,7 +2,11 @@ import TokenSimulationModule from '../..';
 
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 
+import AddExporter from '@bpmn-io/add-exporter';
+
 import fileDrop from 'file-drops';
+
+import fileOpen from 'file-open';
 
 import download from 'downloadjs';
 
@@ -12,6 +16,7 @@ const url = new URL(window.location.href);
 
 const persistent = url.searchParams.has('p');
 const active = url.searchParams.has('e');
+const presentationMode = url.searchParams.has('pm');
 
 let fileName = 'diagram.bpmn';
 
@@ -69,8 +74,13 @@ const modeler = new BpmnModeler({
   container: '#canvas',
   additionalModules: [
     TokenSimulationModule,
+    AddExporter,
     ExampleModule
   ],
+  exporter: {
+    name: 'bpmn-js-token-simulation',
+    version: process.env.TOKEN_SIMULATION_VERSION
+  },
   keyboard: {
     bindTo: document
   }
@@ -94,19 +104,26 @@ modeler.openDiagram = function(diagram) {
     });
 };
 
-document.body.addEventListener('dragover', fileDrop('Open BPMN diagram', function(files) {
+if (presentationMode) {
+  document.body.classList.add('presentation-mode');
+}
+
+function openFile(files) {
 
   // files = [ { name, contents }, ... ]
 
-  if (files.length) {
-    hideDropMessage();
-
-    fileName = files[0].name;
-
-    modeler.openDiagram(files[0].contents);
+  if (!files.length) {
+    return;
   }
 
-}), false);
+  hideDropMessage();
+
+  fileName = files[0].name;
+
+  modeler.openDiagram(files[0].contents);
+}
+
+document.body.addEventListener('dragover', fileDrop('Open BPMN diagram', openFile), false);
 
 function downloadDiagram() {
   modeler.saveXML({ format: true }, function(err, xml) {
@@ -121,6 +138,12 @@ document.body.addEventListener('keydown', function(event) {
     event.preventDefault();
 
     downloadDiagram();
+  }
+
+  if (event.code === 'KeyO' && (event.metaKey || event.ctrlKey)) {
+    event.preventDefault();
+
+    fileOpen().then(openFile);
   }
 });
 

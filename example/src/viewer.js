@@ -4,6 +4,8 @@ import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
 
 import fileDrop from 'file-drops';
 
+import fileOpen from 'file-open';
+
 import exampleXML from '../resources/example.bpmn';
 
 
@@ -11,6 +13,7 @@ const url = new URL(window.location.href);
 
 const persistent = url.searchParams.has('p');
 const active = url.searchParams.has('e');
+const presentationMode = url.searchParams.has('pm');
 
 const initialDiagram = (() => {
   try {
@@ -91,15 +94,31 @@ viewer.openDiagram = function(diagram) {
     });
 };
 
-document.body.addEventListener('dragover', fileDrop('Open BPMN diagram', function(files) {
+if (presentationMode) {
+  document.body.classList.add('presentation-mode');
+}
+
+function openFile(files) {
 
   // files = [ { name, contents }, ... ]
 
-  if (files.length) {
-    hideDropMessage();
-    viewer.openDiagram(files[0].contents);
+  if (!files.length) {
+    return;
   }
 
-}), false);
+  hideDropMessage();
+
+  viewer.openDiagram(files[0].contents);
+}
+
+document.body.addEventListener('dragover', fileDrop('Open BPMN diagram', openFile), false);
 
 viewer.openDiagram(initialDiagram);
+
+document.body.addEventListener('keydown', function(event) {
+  if (event.code === 'KeyO' && (event.metaKey || event.ctrlKey)) {
+    event.preventDefault();
+
+    fileOpen().then(openFile);
+  }
+});
