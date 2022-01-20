@@ -6,6 +6,27 @@ All notable changes to the [bpmn-js-token-simulation](https://github.com/bpmn-io
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.24.0
+
+* `FEAT`: return `Simulator#signal` scope
+* `FEAT`: return `Simulator#enter` scope
+* `FEAT`: support token sinks other than end events ([#94](https://github.com/bpmn-io/bpmn-js-token-simulation/issues/94))
+* `FEAT`: support error throw events ([`017aa885`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/017aa885822ad84368ed16730057dd8907407d53)
+* `FIX`: read and restore colors in `bpmn-js >= 8.7` compatible manner ([#90](https://github.com/bpmn-io/bpmn-js-token-simulation/issues/90))
+* `FIX`: correct context-pads interaction with scope filters ([`6dc14819`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/6dc14819384ae87df49ad058964185ef06216ea5))
+* `FIX`: make pause context-pad handler scope filter aware ([`7253969f`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/7253969f09c22e46ac4021eb2b2eedfd4bba2c59))
+* `CHORE`: various example improvements
+
+## 0.23.0
+
+* `FEAT`: add pause at node feature ([`f6c6b06b`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/f6c6b06b553c549776c8e3159d8bc1f8f96a8070), [#91](https://github.com/bpmn-io/bpmn-js-token-simulation/pull/91))
+* `FEAT`: update context-pads rather than add and remove ([`84d288e7`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/84d288e72ed2217cb196a1002379ac525bedcdc8))
+* `FEAT`: `tick` on out of bounds `elementChanged` ([`53230707`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/53230707f613939105e4878a115001db58d7d6c1))
+* `FEAT`: update and inline icons ([`dc6eb1195`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/dc6eb1195eb64ee5cd85fa08966e573e2fed4d0f))
+* `FEAT`: allow configuration of `ActivityBehavior` wait semantics ([`dcf1e855`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/dcf1e855ba2a9c3430a10bdb058d87457ad33dd1))
+* `FIX`: reduce visual noise caused by context-pad updates
+* `FIX`: mark parent as changed on `{create,destroy}Scope` ([`410659bc`](https://github.com/bpmn-io/bpmn-js-token-simulation/commit/410659bc8bf29a4d585972a7dcb0176dcebe1262))
+
 ## 0.22.0
 
 * `FEAT`: allow simulation of bi-directional message flows ([#77](https://github.com/bpmn-io/bpmn-js-token-simulation/issues/77))

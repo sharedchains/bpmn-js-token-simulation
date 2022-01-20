@@ -1,5 +1,6 @@
 coverage
 example/dist
+lib/icons/index.js
 node_modules
 tmp
 
