@@ -14,6 +14,7 @@ import TimesSVG from './times.svg';
 import ToggleOffSVG from './toggle-off.svg';
 import ToggleOnSVG from './toggle-on.svg';
 import MagicSVG from './magic.svg';
+import ChartBarSVG from './chart-bar.svg';
 
 
 function createIcon(svg) {
@@ -38,3 +39,4 @@ export const TimesIcon = createIcon(TimesSVG);
 export const ToggleOffIcon = createIcon(ToggleOffSVG);
 export const ToggleOnIcon = createIcon(ToggleOnSVG);
 export const MagicIcon = createIcon(MagicSVG);
+export const ChartBarIcon = createIcon(ChartBarSVG);
