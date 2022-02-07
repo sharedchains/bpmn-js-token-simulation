@@ -4,6 +4,11 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 
 import AddExporter from '@bpmn-io/add-exporter';
 
+import {
+  BpmnPropertiesPanelModule,
+  BpmnPropertiesProviderModule
+} from 'bpmn-js-properties-panel';
+
 import fileDrop from 'file-drops';
 
 import fileOpen from 'file-open';
@@ -28,14 +33,23 @@ const initialDiagram = (() => {
   }
 })();
 
-function hideDropMessage() {
-  const dropMessage = document.querySelector('.drop-message');
+function showMessage(cls, message) {
+  const messageEl = document.querySelector('.drop-message');
 
-  dropMessage.style.display = 'none';
+  messageEl.textContent = message;
+  messageEl.className = `drop-message ${cls || ''}`;
+
+  messageEl.style.display = 'block';
+}
+
+function hideMessage() {
+  const messageEl = document.querySelector('.drop-message');
+
+  messageEl.style.display = 'none';
 }
 
 if (persistent) {
-  hideDropMessage();
+  hideMessage();
 }
 
 const ExampleModule = {
@@ -52,6 +66,8 @@ const ExampleModule = {
 
       if ('history' in window) {
         eventBus.on('tokenSimulation.toggleMode', event => {
+
+          document.body.classList.toggle('token-simulation-active', event.active);
 
           if (event.active) {
             url.searchParams.set('e', '1');
@@ -73,10 +89,15 @@ const ExampleModule = {
 const modeler = new BpmnModeler({
   container: '#canvas',
   additionalModules: [
+    BpmnPropertiesPanelModule,
+    BpmnPropertiesProviderModule,
     TokenSimulationModule,
     AddExporter,
     ExampleModule
   ],
+  propertiesPanel: {
+    parent: '#properties-panel'
+  },
   exporter: {
     name: 'bpmn-js-token-simulation',
     version: process.env.TOKEN_SIMULATION_VERSION
@@ -86,8 +107,8 @@ const modeler = new BpmnModeler({
   }
 });
 
-modeler.openDiagram = function(diagram) {
-  return this.importXML(diagram)
+function openDiagram(diagram) {
+  return modeler.importXML(diagram)
     .then(({ warnings }) => {
       if (warnings.length) {
         console.warn(warnings);
@@ -97,12 +118,12 @@ modeler.openDiagram = function(diagram) {
         localStorage['diagram-xml'] = diagram;
       }
 
-      this.get('canvas').zoom('fit-viewport');
+      modeler.get('canvas').zoom('fit-viewport');
     })
     .catch(err => {
       console.error(err);
     });
-};
+}
 
 if (presentationMode) {
   document.body.classList.add('presentation-mode');
@@ -116,11 +137,11 @@ function openFile(files) {
     return;
   }
 
-  hideDropMessage();
+  hideMessage();
 
   fileName = files[0].name;
 
-  modeler.openDiagram(files[0].contents);
+  openDiagram(files[0].contents);
 }
 
 document.body.addEventListener('dragover', fileDrop('Open BPMN diagram', openFile), false);
@@ -151,4 +172,78 @@ document.querySelector('#download-button').addEventListener('click', function(ev
   downloadDiagram();
 });
 
-modeler.openDiagram(initialDiagram);
+
+const propertiesPanel = document.querySelector('#properties-panel');
+
+const propertiesPanelResizer = document.querySelector('#properties-panel-resizer');
+
+let startX, startWidth;
+
+function toggleProperties(open) {
+
+  if (open) {
+    url.searchParams.set('pp', '1');
+  } else {
+    url.searchParams.delete('pp');
+  }
+
+  history.replaceState({}, document.title, url.toString());
+
+  propertiesPanel.classList.toggle('open', open);
+}
+
+propertiesPanelResizer.addEventListener('click', function(event) {
+  toggleProperties(!propertiesPanel.classList.contains('open'));
+});
+
+propertiesPanelResizer.addEventListener('dragstart', function(event) {
+  const img = new Image();
+  img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  event.dataTransfer.setDragImage(img, 1, 1);
+
+  startX = event.screenX;
+  startWidth = propertiesPanel.getBoundingClientRect().width;
+});
+
+propertiesPanelResizer.addEventListener('drag', function(event) {
+
+  if (!event.screenX) {
+    return;
+  }
+
+  const delta = event.screenX - startX;
+
+  const width = startWidth - delta;
+
+  const open = width > 200;
+
+  propertiesPanel.style.width = open ? `${width}px` : null;
+
+  toggleProperties(open);
+});
+
+const remoteDiagram = url.searchParams.get('diagram');
+
+if (remoteDiagram) {
+  fetch(remoteDiagram).then(
+    r => {
+      if (r.ok) {
+        return r.text();
+      }
+
+      throw new Error(`Status ${r.status}`);
+    }
+  ).then(
+    text => openDiagram(text)
+  ).catch(
+    err => {
+      showMessage('error', `Failed to open remote diagram: ${err.message}`);
+
+      openDiagram(initialDiagram);
+    }
+  );
+} else {
+  openDiagram(initialDiagram);
+}
+
+toggleProperties(url.searchParams.has('pp'));
