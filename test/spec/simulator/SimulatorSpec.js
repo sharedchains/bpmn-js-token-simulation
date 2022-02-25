@@ -791,6 +791,18 @@ describe('simulator', function() {
     });
 
 
+    verify('signal-trigger-multiple-start-events', (fixture) => {
+
+      // when
+      trigger({
+        element: element('START')
+      });
+
+      // then
+      expectTrace(fixture());
+    });
+
+
     verify('signal-trigger-event-based-gateway', (fixture) => {
 
       // when
@@ -1467,6 +1479,18 @@ describe('simulator', function() {
 
 
     verify('message-flow-trigger-start-multiple-events', (fixture) => {
+
+      // when
+      signal({
+        element: element('M_FLOW')
+      });
+
+      // then
+      expectTrace(fixture());
+    });
+
+
+    verify('message-flow-trigger-start-multiple-message-events', (fixture) => {
 
       // when
       signal({
